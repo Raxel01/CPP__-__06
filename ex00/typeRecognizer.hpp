@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:02:44 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/21 19:08:20 by abait-ta         ###   ########.fr       */
+/*   Updated: 2024/01/21 22:45:13 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ enum WhichType
     FLOAT,
     DOUBLE,
     UNDEFINED,
-    Impossible,
-    nonDisplayable
 };
+
+#define DONT_EXIST 404
 
 class typeRecognizer
 {
@@ -35,8 +35,8 @@ class typeRecognizer
         int    Asint;
         float  Asfloat;
         double Asdouble;
-        enum   WhichType DataType;
     public :
+        enum   WhichType DataType;
         int inputLen;
         class nonDisplayable : public std::exception
         {
@@ -49,16 +49,17 @@ class typeRecognizer
                 const char* what() const throw();
          };
         typeRecognizer();
-        typeRecognizer(std::string input);
+        typeRecognizer(std::string& input);
         typeRecognizer(const typeRecognizer &Obj);
         typeRecognizer& operator=(const typeRecognizer &Origine);
-        WhichType typeFinder(std::string input);
-        bool   typeISchar   (std::string input); 
-        bool   typeISint    (std::string input);
-        // bool   typeISfloat  (std::string input); 
-        // bool   typeISdouble (std::string input); 
-        char   ToCharr(std::string input);
-        int    ToInt (std::string input);
+        void   typeFinder(std::string& input);
+        bool   typeISchar   (std::string& input); 
+        bool   typeISint    (std::string& input);
+        bool   typeISfloat  (std::string& input); 
+        bool   typeISdouble (std::string& input);
+        bool   IsDigitInSize(std::string& input, int start, int end);
+        void   ToCharr(std::string& input);
+        int    ToInt (std::string&  input);
         // float  ToFloat(std::string input);
         // double ToDouble(std::string input);
         ~typeRecognizer();

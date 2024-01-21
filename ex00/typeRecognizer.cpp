@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:50:45 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/21 19:12:10 by abait-ta         ###   ########.fr       */
+/*   Updated: 2024/01/21 22:55:22 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,45 @@ bool inf_case(std::string &input){
             || !input.compare("+inff") || !input.compare("-inff"));
 }
 
-typeRecognizer::typeRecognizer(std::string input)
+typeRecognizer::typeRecognizer(std::string &input)
 {
-    inputLen = input.length();
-    //====================== char block===============>
-    try{
-        if (typeISchar(input))
-            std::cout << "char : [" << input[0]<<"]"<<std::endl;
-    }
-    catch(const std::exception& e){
-        std::cerr << "char : [" << e.what() << "]" << std::endl;
-    }
+    typeFinder(input);
+    //====================== char block==========================>
+    // try{
+    //     if (typeISchar(input))
+    //         std::cout << "char : [" << input[0]<<"]"<<std::endl;
+    // }
+    // catch(const std::exception& e){
+    //     std::cerr << "char : [" << e.what() << "]" << std::endl;
+    // }
     
-    //===================  int Block ==================>
+    //===================  int Block =============================>
+    if (DataType == INT)
+    {
     try{
-        if (typeISint(input))
-            std::cout << "int : [" << (int)ToInt(input)<< "]" <<std::endl;
-        else if (inf_case(input))
-            std::cout << "int : [" << input[0] << "inf" << "]" <<std::endl;
-        else 
-            throw Impossible();
+            ToCharr(input); 
     }
-    catch (Impossible &ex){
-        std::cout << "int : [" << ex.what() << "]" << std::endl;
+    catch (std::exception &ex){
+        std::cout << "char : [" << ex.what() << "]" << std::endl;
     }
+        std::cout << "int    : [" << ToInt(input) << "]" <<std::endl;
+        std::cout << "float  : [" << ToInt(input) << ".0f"<< "]" <<std::endl;
+        std::cout << "double : [" << ToInt(input) << ".0 "<< "]" <<std::endl;
+    }
+}
+
+void   typeRecognizer::ToCharr(std::string& input)
+{
+    (void)input;
+    if (Asint >= 32 && Asint <= 127)
+    {
+        std::cout << "char : [" << (char)Asint << "]" << std::endl;
+        return ;
+    }
+    else if (Asint >= 0 && Asint <= 31)
+        throw nonDisplayable();
+    else
+        throw Impossible();
 }
 
 typeRecognizer::typeRecognizer(const typeRecognizer &Obj)
@@ -84,66 +99,117 @@ const char* typeRecognizer::Impossible::what() const _NOEXCEPT
 }
 
 
-bool   typeRecognizer::typeISint(std::string input)
+bool   typeRecognizer::typeISint(std::string &input)
 {
-    int i (-1);
-    while(input[++i])
+    int i (0);
+
+    if (input.length() == 0)
+        return (0);
+    if (input[i] == '-' || input[i] == '+')
+        i++;
+    while(input[i]){
         if (!std::isdigit(input[i]))
             return (0);
+        i++;
+    }
+    std::stringstream(input) >> Asint;
     return (1);
 }
 
-bool   typeRecognizer::typeISchar(std::string input)
+bool   typeRecognizer::typeISchar(std::string &input)
 {
-    int Catcher;
-    
+    (void)input;    
     if (inputLen == 1 || !inputLen){
-        if ((Catcher >= 32 && Catcher <= 127) \
-            || (input[0] >= 32 && input[0] <= 127 )){
-            if ((Catcher >= 32 && Catcher <= 127))
-                Aschar = Catcher;
-            else
-            {
-                Aschar = input[0];
-                std::cout << Aschar <<std::endl;
-            }
             return true;
-        }
-        else if (Catcher >= 0 && Catcher <= 31)
-            throw nonDisplayable();
-        else
-            throw Impossible();
     }
-    throw Impossible();
     return (false);
 }
 
-// bool   typeRecognizer::typeISfloat(std::string input)
-// {
-
-// }
-
-// bool   typeRecognizer::typeISdouble(std::string input)
-// {
-
-// }
-
-int    typeRecognizer::ToInt (std::string input)
+bool   typeRecognizer::IsDigitInSize(std::string& input, int start, int end)
 {
-    if (input[0] == '\0'){
-        Asint = 0; return (Asint);
+    if (start == end)
+        return (0);
+    while(input[start] && start < end)
+    {
+        if (!isdigit(input[start]))
+            return (0);
+        start++;
     }
-    if (inputLen == 1)
-        return (input[0] - 48);
+    return (1);
+}
+
+int RadixPoint(std::string &input)
+{
+    int i(-1);
+
+    while (input[++i])
+        if (input[i] == '.')
+            return (i);
+    return (-1);
+}
+
+bool Grammar(std::string &input, char type)
+{
+    if (type == 'F'){
+        return (input[input.length() - 1] == 'f' && 
+                input.length() >= 4 &&
+                RadixPoint(input) != -1);
+    }
+    
+    if (type == 'D'){
+        return (input.length() >= 3 &&
+             RadixPoint(input) != -1);
+    }
+    return (0);
+}
+
+bool   typeRecognizer::typeISfloat(std::string& input)
+{
+    if (Grammar(input, 'F'))
+        if (IsDigitInSize(input, 0, input.find_first_of(".")) &&
+            IsDigitInSize(input, input.find_first_of(".") + 1, input.length() - 1))
+                    return (true);
+    return (false);
+
+}
+
+bool   typeRecognizer::typeISdouble(std::string &input)
+{
+    if (Grammar(input, 'D')){
+        if (IsDigitInSize(input, 0, input.find_first_of(".")) &&
+            IsDigitInSize(input, input.find_first_of(".") + 1, input.length()))
+                    return (true);
+    }
+    return (false);
+
+}
+
+int    typeRecognizer::ToInt (std::string &input)
+{
     std::stringstream(input) >> Asint;
     return (Asint);
 }
 
-WhichType typeRecognizer::typeFinder(std::string input)
+void     typeRecognizer::typeFinder(std::string &input)
 {
-    if (typeISint(input))
-        return (INT);
-    else if (typeISchar(input))
-        return (CHAR);
-    return (UNDEFINED);
+    inputLen = input.length();
+    if (typeISint(input)){
+        std::cout << "INT" << std::endl;
+        DataType = INT;
+        return;
+    } else if (typeISchar(input)){
+        std::cout << "CHAR" << std::endl;
+        DataType = CHAR;
+        return;
+    } else if (typeISfloat(input)){
+        DataType = FLOAT;
+        std::cout << "FLOAT" << std::endl;
+        return;
+    } else if (typeISdouble(input)){
+        DataType = DOUBLE;
+        std::cout << "Double" << std::endl;
+        return ;
+    }
+    std::cout << "UNDEFINED" << std::endl;
+    return ;
 }
