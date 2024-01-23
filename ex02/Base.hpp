@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ScalarConverter.hpp                                :+:      :+:    :+:   */
+/*   Base.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 20:49:46 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/22 21:59:44 by abait-ta         ###   ########.fr       */
+/*   Created: 2024/01/23 15:05:26 by abait-ta          #+#    #+#             */
+/*   Updated: 2024/01/23 15:31:35 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCALR_HPP
-#define SCALR_HPP
+#ifndef BASE_HPP
+#define BASE_HPP
 
 #include <iostream>
 #include <iomanip>
-#include <exception>
-#include <sstream>
 
-class ScalarConverter
+class Base
 {
-    private:
-        ScalarConverter();
     public :
-    static void convert(std::string input)                    ;
-    ScalarConverter(const ScalarConverter &Obj)               ;
-    ScalarConverter& operator=(const ScalarConverter &Origine);
-    ~ScalarConverter();
+        Base();
+        Base * generate(void);
+        void identify(Base* p);
+        void identify(Base& p);
+        virtual ~Base();
+};
+
+class A : public Base{
+    
+};
+class B : public Base{
+    
+};
+
+class C : public Base{
     
 };
 
 #endif
-    

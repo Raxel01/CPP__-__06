@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ScalarConverter.hpp                                :+:      :+:    :+:   */
+/*   Data.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 20:49:46 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/22 21:59:44 by abait-ta         ###   ########.fr       */
+/*   Created: 2024/01/23 11:36:57 by abait-ta          #+#    #+#             */
+/*   Updated: 2024/01/23 11:44:13 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCALR_HPP
-#define SCALR_HPP
+#ifndef DATA_HPP
+#define DATA_HPP
 
 #include <iostream>
 #include <iomanip>
-#include <exception>
-#include <sstream>
 
-class ScalarConverter
+class Data
 {
-    private:
-        ScalarConverter();
+    private :
+        short stock;
+        char  Admin;
     public :
-    static void convert(std::string input)                    ;
-    ScalarConverter(const ScalarConverter &Obj)               ;
-    ScalarConverter& operator=(const ScalarConverter &Origine);
-    ~ScalarConverter();
-    
+        Data();
+        Data(short AssStock, char AssAdmin);
+        class NonValidPointer : public std::exception
+        {
+          public :
+                 const char* what() const throw();      
+        };
+        Data(const Data &Obj);
+        void getAttr();
+        Data& operator=(const Data &Origine);
+        ~Data();
 };
 
 #endif
-    

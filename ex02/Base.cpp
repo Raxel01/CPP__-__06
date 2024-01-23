@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ScalarConverter.hpp                                :+:      :+:    :+:   */
+/*   Base.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 20:49:46 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/22 21:59:44 by abait-ta         ###   ########.fr       */
+/*   Created: 2024/01/23 15:27:20 by abait-ta          #+#    #+#             */
+/*   Updated: 2024/01/23 15:32:16 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCALR_HPP
-#define SCALR_HPP
+#include "Base.hpp"
 
-#include <iostream>
-#include <iomanip>
-#include <exception>
-#include <sstream>
-
-class ScalarConverter
+Base::Base()
 {
-    private:
-        ScalarConverter();
-    public :
-    static void convert(std::string input)                    ;
-    ScalarConverter(const ScalarConverter &Obj)               ;
-    ScalarConverter& operator=(const ScalarConverter &Origine);
-    ~ScalarConverter();
     
-};
+}
 
-#endif
+Base::~Base()
+{
     
+}
+
+Base* Base::generate ( void ){
+
+srand(time(NULL));
+
+}

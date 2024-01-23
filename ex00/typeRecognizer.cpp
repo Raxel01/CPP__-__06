@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:50:45 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/22 05:38:12 by abait-ta         ###   ########.fr       */
+/*   Updated: 2024/01/22 21:11:41 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,49 +61,56 @@ typeRecognizer::typeRecognizer(std::string &input)
         std::cout << "char   : [" << ex.what() << "]" << std::endl;
     }
         std::cout << "int    : [" << ToInt(input) << "]" <<std::endl;
-        std::cout << "float  : [" << ToInt(input) << ".0f"<< "]" <<std::endl;
-        std::cout << "double : [" << ToInt(input) << ".0 "<< "]" <<std::endl;
+        std::cout << "float  : [" << static_cast<float>(ToInt(input)) << ".0f"<< "]" <<std::endl;
+        std::cout << "double : [" << static_cast<double>(ToInt(input)) << ".0 "<< "]" <<std::endl;
     }
     
     else if (DataType == CHAR){
-        std::cout << "char   : [" << Aschar << "]" << std::endl;
-        std::cout << "int    : [" << (int)Aschar << "]" << std::endl;
-        std::cout << "float  : [" << (int)Aschar << ".0f]" <<std::endl;
-        std::cout << "double : [" << (int)Aschar << ".0]" <<std::endl;
+        try{
+            ToCharr(input); 
+    }
+    catch (std::exception &ex){
+        std::cout << "char   : [" << ex.what() << "]" << std::endl;
+    }
+        // std::cout << "char   : [" << Aschar << "]" << std::endl;
+        std::cout << "int    : [" << static_cast <int>    (Aschar) << "]" << std::endl;
+        std::cout << "float  : [" << static_cast <float>  (Aschar) << ".0f]" <<std::endl;
+        std::cout << "double : [" << static_cast <double> (Aschar) << ".0]" <<std::endl;
     }
     
    else if (DataType == DOUBLE){
     try{
-        Asint = (int)Asdouble;
+        Asint = static_cast<int>(Asdouble);
         ToCharr(input);
         
     } catch (std::exception &ex){
         std::cout << "char   : [" << ex.what() << "]" << std::endl;
     }
-        std::cout << "int    : [" << (int)  Asdouble  << "]" <<std::endl;
-        std::cout << "float  : [" << (float)Asdouble << "f]" <<std::endl;
+        std::cout << "int    : [" << static_cast<int> (Asdouble)  << "]" <<std::endl;
+        std::cout << "float  : [" << std::fixed << static_cast<float>(Asdouble) << "f]" <<std::endl;
         std::cout << "double : [" << Asdouble <<"]"<< std::endl;  
     }
-    else if (DataType == FLOAT){
+   
+   else if (DataType == FLOAT){
     try{
-        Asint = (int)Asfloat;
+        Asint = static_cast<int>(Asfloat);
         ToCharr(input);
         
     } catch (std::exception &ex){
         std::cout << "char   : [" << ex.what() << "]" << std::endl;
     }
-        std::cout << "int    : [" << (int)  Asfloat  << "]" <<std::endl;
-        std::cout << "float  : [" << Asfloat << "f]" <<std::endl;
-        std::cout << "double : [" << (double)Asfloat <<"]"<< std::endl;  
+        std::cout << "int    : [" << static_cast<int> (Asfloat)  << "]" <<std::endl;
+        std::cout << "float  : [" << std::fixed << Asfloat << "f]" <<std::endl;
+        std::cout << "double : [" << static_cast<double>(Asfloat) <<"]"<< std::endl;  
     }
 }
 
 void   typeRecognizer::ToCharr(std::string& input)
 {
-    (void)input;
+    static_cast<void>(input);
     if (Asint >= 32 && Asint <= 127)
     {
-        std::cout << "char   : [" << (char)Asint << "]" << std::endl;
+        std::cout << "char   : [" << static_cast<char>(Asint) << "]" << std::endl;
         return ;
     }
     else if (Asint >= 0 && Asint <= 31)
@@ -123,7 +130,7 @@ typeRecognizer::~typeRecognizer()
     // std::cout << "#" << std::setw(40) << "typeRecognizer  Destructor  Called  " <<  std::setw(15) << "---]" << std::endl;
 }
 
- typeRecognizer & typeRecognizer::operator=(const typeRecognizer &Origine)
+typeRecognizer & typeRecognizer::operator=(const typeRecognizer &Origine)
  {
      std::cout << "#" << std::setw(51) << "typeRecognizer Copy assignment Operator Called "<< std::setw(4) << "---]" << std::endl;
      if (this != &Origine)
@@ -136,7 +143,6 @@ typeRecognizer::~typeRecognizer()
      return (*this);
  }
 
-
 const char* typeRecognizer::nonDisplayable::what() const _NOEXCEPT
 {
     return (" Non displayable ");   
@@ -147,7 +153,6 @@ const char* typeRecognizer::Impossible::what() const _NOEXCEPT
     return (" Impossible ");   
 }
 
-
 bool   typeRecognizer::typeISint(std::string &input)
 {
     int i (0);
@@ -156,6 +161,8 @@ bool   typeRecognizer::typeISint(std::string &input)
         return (0);
     if (input[i] == '-' || input[i] == '+')
         i++;
+    if (!input[i])
+        return (0);
     while(input[i]){
         if (!std::isdigit(input[i]))
             return (0);
@@ -167,9 +174,9 @@ bool   typeRecognizer::typeISint(std::string &input)
 
 bool   typeRecognizer::typeISchar(std::string &input)
 {
-    (void)input;    
     if (inputLen == 1 || !inputLen){
         Aschar = input[0];
+        Asint = static_cast<int>(input[0]);
             return true;
     }
     return (false);
@@ -248,23 +255,18 @@ void     typeRecognizer::typeFinder(std::string &input)
 {
     inputLen = input.length();
     if (typeISint(input)){
-        std::cout << "INT" << std::endl;
         DataType = INT;
         return;
     } else if (typeISchar(input)){
-        std::cout << "CHAR" << std::endl;
         DataType = CHAR;
         return;
     } else if (typeISfloat(input)){
         DataType = FLOAT;
-        std::cout << "FLOAT" << std::endl;
         return;
     } else if (typeISdouble(input)){
         DataType = DOUBLE;
-        std::cout << "Double" << std::endl;
         return ;
     }
     DataType = UNDEFINED;
-    std::cout << "UNDEFINED" << std::endl;
     return ;
 }

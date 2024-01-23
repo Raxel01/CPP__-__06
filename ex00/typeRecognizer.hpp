@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:02:44 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/21 22:45:13 by abait-ta         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:44:04 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ enum WhichType
     UNDEFINED,
 };
 
-#define DONT_EXIST 404
-
 class typeRecognizer
 {
     private:
@@ -38,13 +36,11 @@ class typeRecognizer
     public :
         enum   WhichType DataType;
         int inputLen;
-        class nonDisplayable : public std::exception
-        {
+        class nonDisplayable : public std::exception{
              public :
                  const char* what() const throw();
         };
-        class Impossible : public std::exception
-        {
+        class Impossible : public std::exception{
              public :
                 const char* what() const throw();
          };

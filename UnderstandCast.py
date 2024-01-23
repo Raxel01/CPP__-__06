@@ -36,6 +36,7 @@ TYPES (type_cast){
                 B b=a;                   
 }
 
+
 int main ()
 {
     return (0);
