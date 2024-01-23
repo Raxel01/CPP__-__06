@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 11:36:52 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/23 12:04:37 by abait-ta         ###   ########.fr       */
+/*   Updated: 2024/01/23 18:54:11 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ const char* Data::NonValidPointer::what() const throw(){
 
 Data & Data::operator=(const Data &Origine)
 {
-     std::cout << "#" << std::setw(51) << "Data Copy assignment Operator Called "<< std::setw(4) << "---]" << std::endl;
+    //  std::cout << "#" << std::setw(51) << "Data Copy assignment Operator Called "<< std::setw(4) << "---]" << std::endl;
      if (this != &Origine)
      {
         this->stock = Origine.stock;

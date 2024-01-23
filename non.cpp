@@ -53,11 +53,20 @@ class CDerived: public CBase {public :
 
 int main () {
 
-int  * a = new int[999];
+srand(time(0));
+int Number = rand();
+if (Number % 2 == 0)
+    std::cout << "2" << std::endl;
+else if (Number % 1 == 0)
+    std::cout << "1" << std::endl;
+if (Number % 3 == 0)
+    std::cout << "3" << std::endl;
+// std::cout <<  Number <<std::endl;
+// int  * a = new int[999];
 
-uintptr_t b = reinterpret_cast<uintptr_t>(a);
+// uintptr_t b = reinterpret_cast<uintptr_t>(a);
 
-std::cout << b <<std::endl;
+// std::cout << b <<std::endl;
     // int *type1 = new int[999];
     // void *type2 = static_cast<char *>(type1);
     // float ko = 5.4;
