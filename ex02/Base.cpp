@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:27:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/23 20:29:47 by abait-ta         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:01:12 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ const char* Base::SomethingWrong::what() const throw()
     return ("Something Goes Wrong....");
 }
 
-Base* Base::generate ( void ){
+Base* generate ( void ){
 
     int picked(0);
     int arr[] = {1, 2, 3};
@@ -52,7 +52,7 @@ Base* Base::generate ( void ){
     return (NULL);
 }
 
-void Base::identify(Base* p)
+void identify(Base* p)
 {
     
     if (p == NULL)
@@ -68,7 +68,29 @@ void Base::identify(Base* p)
         std::cout <<"The pointer Catched is For Type C"<< std::endl;
 }
 
-void Base::identify(Base& p){
-    Base::identify(&p);
+void identify(Base& p){
+    try{
+        static_cast <void>(dynamic_cast<A& >(p));
+        std::cout <<"The pointer Catched is For Type A"<< std::endl;
+    }
+    catch(std::bad_cast& e){
+     std::cout << e.what()<< std::endl;   
+    }
+    
+    try{
+        static_cast <void>(dynamic_cast<B& >(p));
+        std::cout <<"The pointer Catched is For Type B"<< std::endl;
+    }
+    catch(std::bad_cast& e){
+     std::cout << e.what()<< std::endl;   
+    }
+    
+    try{
+        static_cast <void>(dynamic_cast<C& >(p));
+        std::cout <<"The pointer Catched is For Type C"<< std::endl;
+    }
+    catch(std::bad_cast& e){
+     std::cout << e.what()<< std::endl;   
+    }
 }
 

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:05:26 by abait-ta          #+#    #+#             */
-/*   Updated: 2024/01/23 20:28:57 by abait-ta         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:00:36 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,17 @@ class Base
 {
     public :
         Base();
-        Base * generate(void);
         class SomethingWrong : public std::exception{
             public :
                  const char* what() const throw();
         };
         
-        void identify(Base* p);
-        void identify(Base& p);
         virtual ~Base();
 };
+
+Base * generate(void);
+void identify(Base* p);
+void identify(Base& p);
 
 class A : public Base{
 
